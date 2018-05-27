@@ -6,7 +6,7 @@
 
 1. network sevice layer
 
-![a](/Users/joseewu/Documents/Sharing/Ch10&11/a.png)
+![a](./a.png)
 
 ---
 
