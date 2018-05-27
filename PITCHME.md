@@ -30,14 +30,9 @@ static var categories: Observable<[EOCategory]> = {
 
 ```swift
 let eoCategories = EONET.categories // when you want to fetch the EOCategory info
-```
-
-
-
-```swift
 // CategoriesViewController is the main page
 let categories = Variable<[EOCategory]>([])
-let eoCategories = EONET.categories
+let eoCategories = EONET.categories 
 eoCategories
   .bind(to: categories) // you can bind the observables to subjects making them as a subscribers 
   .disposed(by: disposeBag)
@@ -62,6 +57,22 @@ categories
 what if one of them errors out??
 
 If either of those errors out, it immediately relays the error and terminates. 
+
+---
+
+**improvement**
+
+```swift
+static func events(forLast days: Int = 360, category: EOCategory) -> Observable<[EOEvent]> {
+    let openEvents = ...
+    let closedEvents = ... 
+    return Observable.of(openEvents, closedEvents)
+      .merge() // using merge and reduce to an array of EOEvents
+      .reduce([]) { running, new in
+        running + new
+    }
+}
+```
 
 ---
 filter out the events
@@ -90,7 +101,9 @@ Bind slider value to days(variable)
 
 ---
 
-#### Split category downloads
+#### Getting events for categories 
+
+**Split category downloads**
 
 ```swift
 let downloadedEvents = eoCategories.flatMap { categories in
@@ -98,12 +111,27 @@ let downloadedEvents = eoCategories.flatMap { categories in
         EONET.events(forLast: 360, category: category)
       })
     }
-    .merge(maxConcurrent: 2)
+    .merge(maxConcurrent: 2) //limit the maxinum subscribe counts for EONET
 ```
-
 ---
 
 ![螢幕快照 2018-05-26 上午11.58.13](./d.png)
+
+```swift
+let updatedCategories = eoCategories.flatMap { categories in
+  downloadedEvents.scan(categories) { updated, events in
+    return updated.map { category in
+      let eventsForCategory = EONET.filteredEvents(events: events,
+forCategory: category)
+      if !eventsForCategory.isEmpty {
+        var cat = category
+        cat.events = cat.events + eventsForCategory
+        return cat
+}
+      return category
+    }
+} }
+```
 
 +++
 
