@@ -55,22 +55,20 @@ categories
 
 +++
 
-![螢幕快照 2018-05-26 上午11.10.40](/Users/joseewu/Desktop/螢幕快照 2018-05-26 上午11.10.40.png)
-
-
-
----
-
 **concat events**
+
+![b](./b.png)
 
 what if one of them errors out??
 
 If either of those errors out, it immediately relays the error and terminates. 
 
+---
+filter out the events
 ```swift
 //Events view controller
 let events = Variable<[EOEvent]>([])
-let disposeBag = DisposeBag() // 
+let disposeBag = DisposeBag() 
 ```
 
 ```swift
@@ -90,6 +88,8 @@ Observable.combineLatest(days.asObservable(), events.asObservable()) { (days, ev
 
 Bind slider value to days(variable)
 
+---
+
 #### Split category downloads
 
 ```swift
@@ -101,7 +101,9 @@ let downloadedEvents = eoCategories.flatMap { categories in
     .merge(maxConcurrent: 2)
 ```
 
-![螢幕快照 2018-05-26 上午11.58.13](/Users/joseewu/Desktop/螢幕快照 2018-05-26 上午11.58.13.png)
+---
+
+![螢幕快照 2018-05-26 上午11.58.13](./d.png)
 
 +++
 
@@ -118,7 +120,7 @@ replay(_:)
 replayAll()
 ```
 
-show the xcdoe playground
+open xcdoe playground
 
 ```swift
 class TimelineView<E>: TimelineViewBase, ObserverType where E: CustomStringConvertible {
@@ -175,11 +177,16 @@ let timer = DispatchSource.timer(interval: 1.0 / Double(elementsPerSecond), queu
 
 #### Windows of buffered observables 
 
-![window](/Users/joseewu/Downloads/window.png)
+---
+![window](./c.png)
 
-```swift
+---
+
+```
 window(timeSpan:count:scheduler:) //The only difference is that it emits an Observable of the buffered items, instead of emitting an array.
 ```
+
+---
 
 ```swift
 _ = sourceObservable
@@ -202,9 +209,11 @@ _ = sourceObservable
   })
 ```
 
-
+---
 
 #### Time-shifting operators 
+
++++
 
 Delay 
 
@@ -220,6 +229,8 @@ sourceObservable.delaySubscription(RxTimeInterval(delayInSeconds), scheduler: Ma
 
 <Demo>
 
+---
+
 ```swift
  delay(_:scheduler:) //
 ```
@@ -233,6 +244,8 @@ let sourceObservable = Observable<Int>
   .replayAll()
 sourceObservable.dispose() //cancel the timer 
 ```
+
++++
 
 One-shot or repeating timers 
 
@@ -249,13 +262,15 @@ _ = Observable<Int>
   .subscribe(delayedTimeline)
 ```
 
-Timeouts 
++++
+
+Timeout
 
 ```swift
 let _ = button
   .rx.tap
   .map { _ in "•" }
-  .timeout(5, other: Observable.just("X"), scheduler: MainScheduler.instance)
+  .timeout(5, other: Observable.just("X"), scheduler: MainScheduler.instance) //onCompleted
   .subscribe(tapsTimeline)
 ```
 
