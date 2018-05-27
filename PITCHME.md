@@ -208,8 +208,6 @@ let timer = DispatchSource.timer(interval: 1.0 / Double(elementsPerSecond), queu
 ---
 ![window](./c.png)
 
----
-
 ```
 window(timeSpan:count:scheduler:) //The only difference is that it emits an Observable of the buffered items, instead of emitting an array.
 ```
@@ -273,7 +271,7 @@ let sourceObservable = Observable<Int>
 sourceObservable.dispose() //cancel the timer 
 ```
 
-+++
+---
 
 One-shot or repeating timers 
 
@@ -290,7 +288,7 @@ _ = Observable<Int>
   .subscribe(delayedTimeline)
 ```
 
-+++
+---
 
 Timeout
 
