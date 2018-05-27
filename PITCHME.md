@@ -1,12 +1,14 @@
 # Combining Operators in Practice
 
++++
+
 #### fetch Event from NASA's open API
 
 1. network sevice layer
 
-![螢幕快照 2018-05-26 上午10.49.37](/Users/joseewu/Desktop/螢幕快照 2018-05-26 上午10.49.37.png)
+![a](/Users/joseewu/Documents/Sharing/Ch10&11/a.png)
 
-+++
+---
 
 2. Model and error handling
 
@@ -101,9 +103,11 @@ let downloadedEvents = eoCategories.flatMap { categories in
 
 ![螢幕快照 2018-05-26 上午11.58.13](/Users/joseewu/Desktop/螢幕快照 2018-05-26 上午11.58.13.png)
 
++++
 
+# Time Based Operators
 
-# Time Based Operators 
++++
 
 #### Buffering operator 
 
